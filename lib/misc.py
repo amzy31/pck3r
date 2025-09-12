@@ -22,7 +22,7 @@ def update_command():
         print(f"{sys_err('')}{RED}Failed to update pck3r.{RESET}")
 
 def version_command():
-    print(f"{sys_ok('')}version : 1.0")
+    print(f"{sys_ok('')}version : 0.2")
 
 def print_help():
     from lib.utils import print_help as ph
