@@ -96,6 +96,10 @@ Check Pck3r version:
 pck3r version
 ```
 
+## Web Interface
+
+For a graphical web-based interface (Ubuntu 24.04 only), open `index.html` in your web browser. This provides a user-friendly way to install packages and run system commands without using the command line. The web interface displays the exact bash commands to run in your terminal for installation.
+
 ## Installation
 
 To install Pck3r globally:

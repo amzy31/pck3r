@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ubuntu HOWTO Install Guide</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    .package-card {
+      margin-bottom: 20px;
+    }
+    .install-cmd {
+      background-color: #f1f3f4;
+      padding: 10px;
+      border-radius: 5px;
+      font-family: monospace;
+      word-wrap: break-word;
+    }
+    .copy-btn {
+      margin-top: 10px;
+    }
+    .progress {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container mt-5">
+    <h1 class="text-center mb-4">Ubuntu HOWTO Install Guide</h1>
+    <div class="mb-4">
+      <input type="text" id="searchInput" class="form-control" placeholder="Search for packages...">
+    </div>
+    <div id="packageContainer" class="row">
+      <!-- Package cards will be inserted here -->
+    </div>
+  </div>
+
+  <script>
+    const packages = [
+      {
+        name: "nodejs",
+        description: "Node.js is a JavaScript runtime built on Chrome's V8 JavaScript engine.",
+        installCmd: "curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - && sudo apt-get install -y nodejs"
+      },
+      {
+        name: "python3-pip",
+        description: "Python package installer for Python 3.",
+        installCmd: "sudo apt update && sudo apt install python3 python3-pip",
+        hasInstall: true
+      },
+      {
+        name: "git",
+        description: "Git is a distributed version control system.",
+        installCmd: "sudo apt update && sudo apt install git"
+      },
+      {
+        name: "vim",
+        description: "Vim is a highly configurable text editor.",
+        installCmd: "sudo apt update && sudo apt install vim"
+      },
+      {
+        name: "apache2",
+        description: "Apache HTTP Server is a free and open-source cross-platform web server.",
+        installCmd: "sudo apt update && sudo apt install apache2"
+      },
+      {
+        name: "mysql-server",
+        description: "MySQL is an open-source relational database management system.",
+        installCmd: "sudo apt update && sudo apt install mysql-server"
+      },
+      {
+        name: "docker",
+        description: "Docker is a set of platform as a service products that use OS-level virtualization.",
+        installCmd: "sudo apt update && sudo apt install apt-transport-https ca-certificates curl gnupg lsb-release && curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg && echo \"deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable\" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null && sudo apt update && sudo apt install docker-ce docker-ce-cli containerd.io"
+      },
+      {
+        name: "vscode",
+        description: "Visual Studio Code is a free source-code editor made by Microsoft.",
+        installCmd: "wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg && sudo install -o root -g root -m 644 packages.microsoft.gpg /etc/apt/trusted.gpg.d/ && sudo sh -c 'echo \"deb [arch=amd64,arm64,armhf signed-by=/etc/apt/trusted.gpg.d/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main\" > /etc/apt/sources.list.d/vscode.list' && rm -f packages.microsoft.gpg && sudo apt update && sudo apt install code"
+      },
+      {
+        name: "firefox",
+        description: "Mozilla Firefox is a free and open-source web browser.",
+        installCmd: "sudo apt update && sudo apt install firefox"
+      },
+      {
+        name: "vlc",
+        description: "VLC media player is a free and open-source, portable, cross-platform media player.",
+        installCmd: "sudo apt update && sudo apt install vlc"
+      }
+    ];
+
+    const packageContainer = document.getElementById('packageContainer');
+    const searchInput = document.getElementById('searchInput');
+
+    function createPackageCard(pkg) {
+      const col = document.createElement('div');
+      col.className = 'col-md-6 package-card';
+      let installBtn = '';
+      let progressBar = '';
+      if (pkg.hasInstall) {
+        installBtn = `<button class="btn btn-success install-btn" onclick="simulateInstall('${pkg.name}', this)">Install Now</button>`;
+        progressBar = `<div class="progress" style="display: none;">
+          <div class="progress-bar" role="progressbar" style="width: 0%"></div>
+        </div>`;
+      }
+      col.innerHTML = `
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">${pkg.name}</h5>
+            <p class="card-text">${pkg.description}</p>
+            <div class="install-cmd">${pkg.installCmd}</div>
+            <button class="btn btn-primary copy-btn" onclick="copyToClipboard('${pkg.installCmd}')">Copy Command</button>
+            ${installBtn}
+            ${progressBar}
+          </div>
+        </div>
+      `;
+      return col;
+    }
+
+    function displayPackages(pkgs) {
+      packageContainer.innerHTML = '';
+      pkgs.forEach(pkg => {
+        packageContainer.appendChild(createPackageCard(pkg));
+      });
+    }
+
+    function filterPackages() {
+      const query = searchInput.value.toLowerCase();
+      const filtered = packages.filter(pkg =>
+        pkg.name.toLowerCase().includes(query) ||
+        pkg.description.toLowerCase().includes(query)
+      );
+      displayPackages(filtered);
+    }
+
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        alert('Command copied to clipboard!');
+      }).catch(err => {
+        console.error('Failed to copy: ', err);
+      });
+    }
+
+    function simulateInstall(pkgName, btn) {
+      const card = btn.closest('.card-body');
+      const progressDiv = card.querySelector('.progress');
+      const progressBar = card.querySelector('.progress-bar');
+      progressDiv.style.display = 'block';
+      btn.disabled = true;
+      let progress = 0;
+      const interval = setInterval(() => {
+        progress += 10;
+        progressBar.style.width = progress + '%';
+        if (progress >= 100) {
+          clearInterval(interval);
+          alert(`${pkgName} installation simulated successfully!`);
+          btn.disabled = false;
+        }
+      }, 500);
+    }
+
+    // Initial display
+    displayPackages(packages);
+
+    // Search functionality
+    searchInput.addEventListener('input', filterPackages);
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
