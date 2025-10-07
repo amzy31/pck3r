@@ -86,10 +86,10 @@
   <div class="container mt-5">
     <h1 class="text-center mb-4">Ubuntu HOWTO Install Guide</h1>
     <div class="ai-search">
-      <h3>AI-Powered Command Generator</h3>
+      <h3>Command Scraper from Search</h3>
       <div class="input-group mb-3">
         <input type="text" id="aiInput" class="form-control ai-input" placeholder="Enter package name...">
-        <button class="btn ai-btn" onclick="generateCommand()">Generate with AI</button>
+        <button class="btn ai-btn" onclick="scrapeCommand()">Scrape Command</button>
       </div>
       <div id="aiResult" class="ai-result" style="display: none;"></div>
     </div>
@@ -103,57 +103,18 @@
 
   <script>
     const packages = [
-      {
-        name: "nodejs",
-        description: "Node.js is a JavaScript runtime built on Chrome's V8 JavaScript engine.",
-        installCmd: "curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - && sudo apt-get install -y nodejs"
-      },
-      {
-        name: "python3-pip",
-        description: "Python package installer for Python 3.",
-        installCmd: "sudo apt update && sudo apt install python3 python3-pip",
-        hasInstall: true
-      },
-      {
-        name: "git",
-        description: "Git is a distributed version control system.",
-        installCmd: "sudo apt update && sudo apt install git"
-      },
-      {
-        name: "vim",
-        description: "Vim is a highly configurable text editor.",
-        installCmd: "sudo apt update && sudo apt install vim"
-      },
-      {
-        name: "apache2",
-        description: "Apache HTTP Server is a free and open-source cross-platform web server.",
-        installCmd: "sudo apt update && sudo apt install apache2"
-      },
-      {
-        name: "mysql-server",
-        description: "MySQL is an open-source relational database management system.",
-        installCmd: "sudo apt update && sudo apt install mysql-server"
-      },
-      {
-        name: "docker",
-        description: "Docker is a set of platform as a service products that use OS-level virtualization.",
-        installCmd: "sudo apt update && sudo apt install apt-transport-https ca-certificates curl gnupg lsb-release && curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg && echo \"deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable\" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null && sudo apt update && sudo apt install docker-ce docker-ce-cli containerd.io"
-      },
-      {
-        name: "vscode",
-        description: "Visual Studio Code is a free source-code editor made by Microsoft.",
-        installCmd: "wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg && sudo install -o root -g root -m 644 packages.microsoft.gpg /etc/apt/trusted.gpg.d/ && sudo sh -c 'echo \"deb [arch=amd64,arm64,armhf signed-by=/etc/apt/trusted.gpg.d/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main\" > /etc/apt/sources.list.d/vscode.list' && rm -f packages.microsoft.gpg && sudo apt update && sudo apt install code"
-      },
-      {
-        name: "firefox",
-        description: "Mozilla Firefox is a free and open-source web browser.",
-        installCmd: "sudo apt update && sudo apt install firefox"
-      },
-      {
-        name: "vlc",
-        description: "VLC media player is a free and open-source, portable, cross-platform media player.",
-        installCmd: "sudo apt update && sudo apt install vlc"
-      }
+      { name: "nodejs", description: "Node.js runtime", installCmd: `curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash - && sudo apt install -y nodejs` },
+      { name: "ohmyzsh", description: "Oh My Zsh shell framework", installCmd: `sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"` },
+      { name: "firefox", description: "Mozilla Firefox browser", installCmd: `sudo install -d -m 0755 /etc/apt/keyrings && wget -q https://packages.mozilla.org/apt/repo-signing-key.gpg -O- | sudo tee /etc/apt/keyrings/packages.mozilla.org.asc > /dev/null && echo "deb [signed-by=/etc/apt/keyrings/packages.mozilla.org.asc] https://packages.mozilla.org/apt mozilla main" | sudo tee -a /etc/apt/sources.list.d/mozilla.list > /dev/null && echo 'Package: *\nPin: origin packages.mozilla.org\nPin-Priority: 1000' | sudo tee /etc/apt/preferences.d/mozilla && sudo apt-get update && sudo apt-get install firefox` },
+      { name: "google-chrome", description: "Google Chrome browser", installCmd: `wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O /tmp/google-chrome.deb && sudo apt install -y /tmp/google-chrome.deb` },
+      { name: "steam", description: "Steam gaming platform", installCmd: `wget https://steamcdn-a.akamaihd.net/client/installer/steam.deb -O /tmp/steam.deb && sudo apt install -y /tmp/steam.deb` },
+      { name: "discord", description: "Discord chat app", installCmd: `wget https://discordapp.com/api/download?platform=linux&format=deb -O /tmp/discord.deb && sudo apt install -y /tmp/discord.deb` },
+      { name: "vscode", description: "Visual Studio Code editor", installCmd: `wget https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64 -O /tmp/vscode.deb && sudo apt install -y /tmp/vscode.deb` },
+      { name: "skype", description: "Skype communication app", installCmd: `wget https://go.skype.com/skypeforlinux-64.deb -O /tmp/skype.deb && sudo apt install -y /tmp/skype.deb` },
+      { name: "zoom", description: "Zoom video conferencing", installCmd: `wget https://zoom.us/client/latest/zoom_amd64.deb -O /tmp/zoom.deb && sudo apt install -y /tmp/zoom.deb` },
+      { name: "vlc", description: "VLC media player", installCmd: `sudo add-apt-repository ppa:videolan/stable-daily -y && sudo apt update && sudo apt install -y vlc` },
+      { name: "virtualbox", description: "VirtualBox virtualization", installCmd: `wget https://download.virtualbox.org/virtualbox/debian/pool/main/o/virtualbox/virtualbox-7.0_7.0.18-162988~Ubuntu~noble_amd64.deb -O /tmp/virtualbox.deb && sudo apt install -y /tmp/virtualbox.deb` },
+      { name: "wine", description: "Wine Windows compatibility layer", installCmd: `wget https://dl.winehq.org/wine-builds/ubuntu/dists/noble/winehq.key -O /tmp/winehq.key && sudo apt-key add /tmp/winehq.key && sudo apt-add-repository 'deb https://dl.winehq.org/wine-builds/ubuntu/ noble main' && sudo apt update && sudo apt install -y --install-recommends winehq-stable` }
     ];
 
     const packageContainer = document.getElementById('packageContainer');
@@ -164,23 +125,13 @@
     function createPackageCard(pkg) {
       const col = document.createElement('div');
       col.className = 'col-md-6 package-card';
-      let installBtn = '';
-      let progressBar = '';
-      if (pkg.hasInstall) {
-        installBtn = `<button class="btn btn-success install-btn" onclick="simulateInstall('${pkg.name}', this)">Install Now</button>`;
-        progressBar = `<div class="progress" style="display: none;">
-          <div class="progress-bar" role="progressbar" style="width: 0%"></div>
-        </div>`;
-      }
       col.innerHTML = `
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">${pkg.name}</h5>
             <p class="card-text">${pkg.description}</p>
-            <div class="install-cmd">${pkg.installCmd}</div>
-            <button class="btn copy-btn" onclick="copyToClipboard('${pkg.installCmd}')">Copy Command</button>
-            ${installBtn}
-            ${progressBar}
+            <div class="install-cmd" style="display: none;">${pkg.installCmd}</div>
+            <button class="btn copy-btn" onclick="showCommand(this)">Show Command</button>
           </div>
         </div>
       `;
@@ -211,55 +162,41 @@
       });
     }
 
-    function simulateInstall(pkgName, btn) {
+    function showCommand(btn) {
       const card = btn.closest('.card-body');
-      const progressDiv = card.querySelector('.progress');
-      const progressBar = card.querySelector('.progress-bar');
-      progressDiv.style.display = 'block';
-      btn.disabled = true;
-      let progress = 0;
-      const interval = setInterval(() => {
-        progress += 10;
-        progressBar.style.width = progress + '%';
-        if (progress >= 100) {
-          clearInterval(interval);
-          alert(`${pkgName} installation simulated successfully!`);
-          btn.disabled = false;
-        }
-      }, 500);
+      const cmdDiv = card.querySelector('.install-cmd');
+      if (cmdDiv.style.display === 'none') {
+        cmdDiv.style.display = 'block';
+        btn.textContent = 'Copy Command';
+        btn.onclick = () => copyToClipboard(cmdDiv.textContent);
+      } else {
+        cmdDiv.style.display = 'none';
+        btn.textContent = 'Show Command';
+        btn.onclick = () => showCommand(btn);
+      }
     }
 
-    async function generateCommand() {
+    async function scrapeCommand() {
       const packageName = aiInput.value.trim();
       if (!packageName) {
         alert('Please enter a package name.');
         return;
       }
       aiResult.style.display = 'block';
-      aiResult.innerHTML = 'Generating command with AI...';
+      aiResult.innerHTML = 'Scraping command from search...';
       try {
-        const response = await fetch('https://api-inference.huggingface.co/models/gpt2', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            inputs: `How to install ${packageName} on Ubuntu?`,
-            parameters: {
-              max_length: 100,
-              temperature: 0.7
-            }
-          })
-        });
+        const query = `how to install ${packageName} on ubuntu`;
+        const response = await fetch(`https://api.duckduckgo.com/?q=${encodeURIComponent(query)}&format=json&no_html=1&skip_disambig=1`);
         const data = await response.json();
-        if (data && data[0] && data[0].generated_text) {
-          const generated = data[0].generated_text.replace(`How to install ${packageName} on Ubuntu?`, '').trim();
-          aiResult.innerHTML = `<strong>AI Generated Command:</strong><br><code>${generated}</code><br><button class="btn copy-btn" onclick="copyToClipboard('${generated}')">Copy Command</button>`;
+        if (data.Answer) {
+          aiResult.innerHTML = `<strong>Scraped Command:</strong><br><code>${data.Answer}</code><br><button class="btn copy-btn" onclick="copyToClipboard('${data.Answer}')">Copy Command</button>`;
+        } else if (data.AbstractText) {
+          aiResult.innerHTML = `<strong>Scraped Info:</strong><br><code>${data.AbstractText}</code><br><button class="btn copy-btn" onclick="copyToClipboard('${data.AbstractText}')">Copy Info</button>`;
         } else {
-          aiResult.innerHTML = 'Failed to generate command. Try again.';
+          aiResult.innerHTML = 'No relevant information found. Try a different package name.';
         }
       } catch (error) {
-        aiResult.innerHTML = 'Error generating command. Please try again.';
+        aiResult.innerHTML = 'Error scraping command. Please try again.';
         console.error(error);
       }
     }
