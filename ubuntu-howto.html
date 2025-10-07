@@ -7,31 +7,94 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body {
-      background-color: #f8f9fa;
+      background: linear-gradient(135deg, #0c0c0c, #1a1a2e);
+      color: #00ff88;
+      font-family: 'Courier New', monospace;
+      min-height: 100vh;
+    }
+    .container {
+      background: rgba(0, 255, 136, 0.1);
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+    }
+    h1 {
+      text-align: center;
+      text-shadow: 0 0 10px #00ff88;
     }
     .package-card {
       margin-bottom: 20px;
+      background: rgba(0, 255, 136, 0.05);
+      border: 1px solid #00ff88;
+      border-radius: 10px;
+      transition: all 0.3s ease;
+    }
+    .package-card:hover {
+      box-shadow: 0 0 15px rgba(0, 255, 136, 0.5);
     }
     .install-cmd {
-      background-color: #f1f3f4;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: #00ff88;
       padding: 10px;
       border-radius: 5px;
       font-family: monospace;
       word-wrap: break-word;
+      border: 1px solid #00ff88;
     }
     .copy-btn {
       margin-top: 10px;
+      background: #00ff88;
+      color: #000;
+      border: none;
+    }
+    .copy-btn:hover {
+      background: #00cc66;
     }
     .progress {
       margin-top: 10px;
+    }
+    .ai-search {
+      margin-bottom: 30px;
+      background: rgba(0, 255, 136, 0.1);
+      padding: 20px;
+      border-radius: 10px;
+      border: 1px solid #00ff88;
+    }
+    .ai-input {
+      background: rgba(0, 0, 0, 0.5);
+      color: #00ff88;
+      border: 1px solid #00ff88;
+    }
+    .ai-btn {
+      background: #00ff88;
+      color: #000;
+      border: none;
+    }
+    .ai-btn:hover {
+      background: #00cc66;
+    }
+    .ai-result {
+      margin-top: 10px;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #00ff88;
     }
   </style>
 </head>
 <body>
   <div class="container mt-5">
     <h1 class="text-center mb-4">Ubuntu HOWTO Install Guide</h1>
+    <div class="ai-search">
+      <h3>AI-Powered Command Generator</h3>
+      <div class="input-group mb-3">
+        <input type="text" id="aiInput" class="form-control ai-input" placeholder="Enter package name...">
+        <button class="btn ai-btn" onclick="generateCommand()">Generate with AI</button>
+      </div>
+      <div id="aiResult" class="ai-result" style="display: none;"></div>
+    </div>
     <div class="mb-4">
-      <input type="text" id="searchInput" class="form-control" placeholder="Search for packages...">
+      <input type="text" id="searchInput" class="form-control ai-input" placeholder="Search for packages...">
     </div>
     <div id="packageContainer" class="row">
       <!-- Package cards will be inserted here -->
@@ -95,6 +158,8 @@
 
     const packageContainer = document.getElementById('packageContainer');
     const searchInput = document.getElementById('searchInput');
+    const aiInput = document.getElementById('aiInput');
+    const aiResult = document.getElementById('aiResult');
 
     function createPackageCard(pkg) {
       const col = document.createElement('div');
@@ -113,7 +178,7 @@
             <h5 class="card-title">${pkg.name}</h5>
             <p class="card-text">${pkg.description}</p>
             <div class="install-cmd">${pkg.installCmd}</div>
-            <button class="btn btn-primary copy-btn" onclick="copyToClipboard('${pkg.installCmd}')">Copy Command</button>
+            <button class="btn copy-btn" onclick="copyToClipboard('${pkg.installCmd}')">Copy Command</button>
             ${installBtn}
             ${progressBar}
           </div>
@@ -162,6 +227,41 @@
           btn.disabled = false;
         }
       }, 500);
+    }
+
+    async function generateCommand() {
+      const packageName = aiInput.value.trim();
+      if (!packageName) {
+        alert('Please enter a package name.');
+        return;
+      }
+      aiResult.style.display = 'block';
+      aiResult.innerHTML = 'Generating command with AI...';
+      try {
+        const response = await fetch('https://api-inference.huggingface.co/models/gpt2', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            inputs: `How to install ${packageName} on Ubuntu?`,
+            parameters: {
+              max_length: 100,
+              temperature: 0.7
+            }
+          })
+        });
+        const data = await response.json();
+        if (data && data[0] && data[0].generated_text) {
+          const generated = data[0].generated_text.replace(`How to install ${packageName} on Ubuntu?`, '').trim();
+          aiResult.innerHTML = `<strong>AI Generated Command:</strong><br><code>${generated}</code><br><button class="btn copy-btn" onclick="copyToClipboard('${generated}')">Copy Command</button>`;
+        } else {
+          aiResult.innerHTML = 'Failed to generate command. Try again.';
+        }
+      } catch (error) {
+        aiResult.innerHTML = 'Error generating command. Please try again.';
+        console.error(error);
+      }
     }
 
     // Initial display
