@@ -9,7 +9,7 @@ const { pkg_find } = imports.lib.pkg;
 const { RED, RESET } = imports.lib.colors;
 
 function main() {
-    const args = ARGV.slice(1);
+    const args = ARGV;
     let command = null;
     let subarg = null;
 
