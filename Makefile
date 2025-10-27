@@ -13,7 +13,8 @@ clean:
 
 install: build
 	sudo cp README.md /bin/pck3r-help
-	sudo install -m 755 $(EXEC_NAME) /usr/bin/$(EXEC_NAME)
+	sudo install -m 755 $(EXEC_NAME) /usr/local/bin/$(EXEC_NAME)
+	sudo cp -rf lib/ /usr/local/bin/
 
 run:
 	gjs main.js --help
