@@ -2,9 +2,9 @@
 
 ![Screenshot](screenshot/pck3r.png)
 
-Pck3r is a user-friendly command-line tool designed for Linux novices. Written in Python, it simplifies package management and system operations on Ubuntu and all Debian-based distributions using the apt package manager.
+Pck3r is a user-friendly command-line tool designed for Linux novices. Written in JavaScript, it simplifies package management and system operations on Ubuntu and all Debian-based distributions using the apt package manager.
 
-Pck3r is created by Amzyei (Amin Azimi) and is licensed under GPL3. Contributions are welcome—feel free to send pull requests on GitHub: https://github.com/amzy31/pck3r. New features will be added to Pck3r soon!
+Pck3r is created by Amzy31 (Amin Azimi) and is licensed under GPL3. Contributions are welcome—feel free to send pull requests on GitHub: https://github.com/amzy31/pck3r. New features will be added to Pck3r soon!
 
 ## Logo
 
