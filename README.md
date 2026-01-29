@@ -4,7 +4,7 @@
 
 Pck3r is an easy command-line tool for Linux beginners. It is written in Python and makes package management and system tasks simple on Ubuntu 24.04. It uses the apt package manager.
 
-Pck3r is created by Amzyei (Amin Azimi) and is licensed under GPL3. We welcome contributions—send pull requests on GitHub: https://github.com/amzy31/pck3r. New features will be added soon!
+Pck3r is created by AMZY31 (Amin Azimi) and is licensed under GPL3. We welcome contributions—send pull requests on GitHub: https://github.com/amzy31/pck3r. New features will be added soon!
 
 ## Logo
 
