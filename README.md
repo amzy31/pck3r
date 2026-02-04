@@ -1,4 +1,4 @@
-![release](https://img.shields.io/badge/release-1.0-blue) ![issues](https://img.shields.io/github/issues/amzyei/pck3r) ![license](https://img.shields.io/github/license/amzyei/pck3r)
+![release](https://img.shields.io/badge/release-0.1-blue) ![issues](https://img.shields.io/github/issues/amzyei/pck3r) ![license](https://img.shields.io/github/license/amzyei/pck3r)
 
 # pck3r : C++ Package Manager for Windows
 
