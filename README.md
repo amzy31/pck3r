@@ -1,5 +1,5 @@
 
-![release](https://img.shields.io/badge/release-0.3-blue) ![issues](https://img.shields.io/github/issues/amzy31/pck3r) ![license](https://img.shields.io/github/license/amzy31/pck3r)
+![release](https://img.shields.io/badge/release-0.1-blue) ![issues](https://img.shields.io/github/issues/amzy31/pck3r) ![license](https://img.shields.io/github/license/amzy31/pck3r)
 
 # Pck3r
 
