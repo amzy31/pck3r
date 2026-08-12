@@ -1,119 +1,148 @@
 
-![release](https://img.shields.io/badge/release-0.3-blue) ![issues](https://img.shields.io/github/issues/amzy-0/pck3r) ![license](https://img.shields.io/github/license/amzy-0/pck3r)
-![]()
-![]()
-![]()
-# pck3r :
+![release](https://img.shields.io/badge/release-0.3-blue) ![issues](https://img.shields.io/github/issues/amzy31/pck3r) ![license](https://img.shields.io/github/license/amzy31/pck3r)
 
-
-This program created for novice in linux   and can handle almost things in ubuntu and all distributions  based on  debian(package manager : "apt")...
-the pcker project , started by amzy0(M.Amin azimi.K) and you can change Pck3r under GPL3 license ...
-you can send me a pull request in github : https://github.com/amzy-0/pck3r and features will be added soon ...
-good luck...
-
-# logo :
-
-    尸⼕长㇌尺
-
-
-# about pck3r :
-
-    -----------------------------------------
-    |                                       |
-    | pck3r : It is a versatile program and |
-    |                                       |
-    | you avoid using useless commands and  |
-    |                                       |
-    | it is written for Ubuntu...           |
-    |                                       |
-    -----------------------------------------
+# Pck3r
 
 
 
 
 
-# system wide installation :
+## About
+
+pck3r is a command-line utility designed to make common Linux tasks easier, especially for beginners.
+
+It provides a simple interface for common system and package-management tasks without requiring users to remember long terminal commands.
+
+pck3r is primarily designed for Ubuntu and Debian-based Linux distributions that use the apt package manager.
+
+### Logo
+
+```
+尸⼕长㇌尺
+```
+
+**Goals:**
+- Make Linux easier for beginners.
+- Simplify common system-management tasks.
+- Provide convenient package installation commands.
+- Reduce the need to remember complex terminal commands.
+- Support Ubuntu and Debian-based distributions.
+
+### Installation
+
+To install pck3r system-wide, run:
+
+./installer.py
+
+After installation, the pck3r command should be available from your terminal.
+
+Usage
+
+``` pck3r <command> [options] ```
+
+#### Commands: 
+
+**install**
+
+Install supported software or packages.
+
+``` pck3r install <package> ```
 
 
-*for system wide installation :*
+Examples:
+
+pck3r install nodejs
+pck3r install wine
+pck3r install ohmyzsh
+pck3r install dotnet
+
+clear
+
+Clear the terminal screen.
+
+```pck3r clear```
+
+sys
+
+Manage system updates and upgrades.
+
+Update package information
+```pck3r sys update```
+
+Upgrade installed packages
+```pck3r sys upgrade```
+
+Update and upgrade
+```pck3r sys updgr```
 
 
-$ ./installer.py
+The updgr command performs both update and upgrade operations.
+
+dotnet
+
+Install the .NET development environment supported by pck3r.
+
+```pck3r install dotnet```
 
 
+Depending on the system and implementation, this may include the .NET runtime, SDK, ASP.NET Core, and C# development tools.
+
+pkg
+
+Search for packages.
+
+```pck3r pkg <package-name>```
 
 
-# pck3r commands
+Example:
 
-"install" command :
+```pck3r pkg firefox```
 
-    $ pck3r install "somthing" :
-    {
-        nodejs,
-        wine,
-        ohmyzsh,
-        flstudio,
-        minecraft,
-        or ...
-    }
-    
-"clear" command :
+update
 
-    $ pck3r clear:
-    {clear your terminal }
+Update pck3r to the latest available release from GitHub.
+
+```pck3r update```
 
 
-"sys" command :
+version
 
-    $ pck3r sys update
-    (update your oprating system)
+Display the installed version of pck3r.
 
-    $ pck3r sys upgrade
-    (upgrade your oprating system)
-
-    $ pck3r sys updgr
-    (both, update and upgrade (full upgrade))
-
-
-"tilix" command :
-
-
-    $ pck3r tilix
-    (tilix terminal ...)
-
-
-"dotnet" command :
-
-    $ pck3r install dotnet
-    (installing .NET (dot net ) C0RE, ASP, MCS compiler , ...)    
-
-
-"pkg" command :
-
-
-    $ pck3r pkg <package name>"
-    (search for packages ...)"
-
-
-"update" command :
-
-
-    $ pck3r update
-    (update to last release from github.com/amzy-0/pck3r)
+```pck3r version```
 
 
 
-"minecraft" command :
+Requirements
+
+pck3r is primarily intended for:
+
+Ubuntu/Mint
+Debian
+Debian-based Linux distributions
+Systems using the apt package manager
+
+Some commands may require administrator privileges.
+
+Contributing
+
+Contributions are welcome!
+
+If you would like to improve pck3r, add features, fix bugs, or improve the documentation, feel free to contribute.
+
+Pull Requests
+Fork the repository.
+Create a new branch.
+Make your changes.
+Test your changes.
+Commit your changes.
+Open a pull request.
 
 
-    $ pck3r minecraft
-    (minecraft runner)
 
+You are free to use, modify, and redistribute the project according to the terms of the license.
 
-"version" command :
+Author: Amin Azimi
+GitHub: @amzy31
 
-
-    $ pck3r version
-    (this command show pck3r version)
-
-
+🐧 Good luck and happy Linux-ing!
